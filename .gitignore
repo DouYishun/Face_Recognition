@@ -3,3 +3,8 @@
 core/build
 example/helloWorld/build
 faceRecognition/build
+examples/helloWorld/build/
+tools/hibDump/build/
+tools/hibImport/build/
+tools/hibInfo/build/
+tools/hibToJpeg/build/
