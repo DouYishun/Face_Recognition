@@ -15,33 +15,32 @@ import java.io.IOException;
 
 public class ComputeMean {
 
-  public static int run(String[] args, String inputHibPath, String outputDir) 
-      throws ClassNotFoundException, IllegalStateException, InterruptedException, IOException {
+    public static int run(String[] args, String inputHibPath, String outputDir)
+            throws ClassNotFoundException, IllegalStateException, InterruptedException, IOException {
 
-    System.out.println("Running compute mean.");
+        System.out.println("Running compute mean.");
 
-    Job job = Job.getInstance();
+        Job job = Job.getInstance();
 
-    job.setJarByClass(Covariance.class);
+        job.setJarByClass(Covariance.class);
 
-    job.setInputFormatClass(HibInputFormat.class);
+        job.setInputFormatClass(HibInputFormat.class);
 
-    job.setMapOutputKeyClass(IntWritable.class);
-    job.setMapOutputValueClass(OpenCVMatWritable.class);
-    
-    job.setOutputKeyClass(NullWritable.class);
-    job.setOutputValueClass(OpenCVMatWritable.class);
+        job.setMapOutputKeyClass(IntWritable.class);
+        job.setMapOutputValueClass(OpenCVMatWritable.class);
 
-    job.setMapperClass(MeanMapper.class);
-    job.setReducerClass(MeanReducer.class);
-    job.setNumReduceTasks(1);
+        job.setOutputKeyClass(NullWritable.class);
+        job.setOutputValueClass(OpenCVMatWritable.class);
 
-    job.setOutputFormatClass(BinaryOutputFormat.class);
+        job.setMapperClass(MeanMapper.class);
+        job.setReducerClass(MeanReducer.class);
+        job.setNumReduceTasks(1);
 
-    FileInputFormat.setInputPaths(job, new Path(inputHibPath));
-    FileOutputFormat.setOutputPath(job, new Path(outputDir));
+        job.setOutputFormatClass(BinaryOutputFormat.class);
 
-    return job.waitForCompletion(true) ? 0 : 1;
-  }
+        FileInputFormat.setInputPaths(job, new Path(inputHibPath));
+        FileOutputFormat.setOutputPath(job, new Path(outputDir));
 
+        return job.waitForCompletion(true) ? 0 : 1;
+    }
 }
