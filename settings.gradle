@@ -1,0 +1,1 @@
+include ':core', ':tools:hibImport', ':tools:hibInfo', ':tools:hibDump', ':tools:hibToJpeg', ':examples:helloWorld', ':faceRecognition'

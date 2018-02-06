@@ -1,0 +1,8 @@
+jar {
+	dependencies{
+		compile project(':core')
+	}
+	from {
+		configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
+	}
+}
