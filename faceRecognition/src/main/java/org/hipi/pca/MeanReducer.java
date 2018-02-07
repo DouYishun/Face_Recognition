@@ -17,22 +17,22 @@ public class MeanReducer extends
     public void reduce(IntWritable key, Iterable<OpenCVMatWritable> meanPatches, Context context)
             throws IOException, InterruptedException {
         int N = Covariance.patchSize;
-    
+
         // consolidate mean patches from mapper
         Mat mean = new Mat(N, N, opencv_core.CV_32FC1, new Scalar(0.0));
-    
+
         int count = 0;
         for (OpenCVMatWritable patch : meanPatches) {
             opencv_core.add(patch.getMat(), mean, mean);
             count++;
         }
-    
+
         // normalize consolidated mean patch
         if (count > 1) {
             mean = opencv_core.divide(mean, (double) count).asMat();
         }
-    
+
         // write out consolidated patch
-        context.write(NullWritable.get(), new OpenCVMatWritable(mean));
+        context.write(NullWritable.get(), new OpenCVMatWritable(mean));  // shape (64 * 64)
     }
 }
