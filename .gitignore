@@ -1,5 +1,4 @@
 .gradle
-.idea
 core/build
 example/helloWorld/build
 faceRecognition/build

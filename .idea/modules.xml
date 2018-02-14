@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/core/core.iml" filepath="$PROJECT_DIR$/.idea/modules/core/core.iml" group="core" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/core/core_main.iml" filepath="$PROJECT_DIR$/.idea/modules/core/core_main.iml" group="core" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/core/core_test.iml" filepath="$PROJECT_DIR$/.idea/modules/core/core_test.iml" group="core" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/examples/examples.iml" filepath="$PROJECT_DIR$/.idea/modules/examples/examples.iml" group="examples" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/examples/examples_main.iml" filepath="$PROJECT_DIR$/.idea/modules/examples/examples_main.iml" group="examples" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/examples/examples_test.iml" filepath="$PROJECT_DIR$/.idea/modules/examples/examples_test.iml" group="examples" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/faceRecognition/faceRecognition.iml" filepath="$PROJECT_DIR$/.idea/modules/faceRecognition/faceRecognition.iml" group="faceRecognition" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/faceRecognition/faceRecognition_main.iml" filepath="$PROJECT_DIR$/.idea/modules/faceRecognition/faceRecognition_main.iml" group="faceRecognition" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/faceRecognition/faceRecognition_test.iml" filepath="$PROJECT_DIR$/.idea/modules/faceRecognition/faceRecognition_test.iml" group="faceRecognition" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/examples/helloWorld/helloWorld.iml" filepath="$PROJECT_DIR$/.idea/modules/examples/helloWorld/helloWorld.iml" group="examples/helloWorld" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/examples/helloWorld/helloWorld_main.iml" filepath="$PROJECT_DIR$/.idea/modules/examples/helloWorld/helloWorld_main.iml" group="examples/helloWorld" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/examples/helloWorld/helloWorld_test.iml" filepath="$PROJECT_DIR$/.idea/modules/examples/helloWorld/helloWorld_test.iml" group="examples/helloWorld" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/tools/hibDump/hibDump.iml" filepath="$PROJECT_DIR$/.idea/modules/tools/hibDump/hibDump.iml" group="tools/hibDump" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/tools/hibDump/hibDump_main.iml" filepath="$PROJECT_DIR$/.idea/modules/tools/hibDump/hibDump_main.iml" group="tools/hibDump" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/tools/hibDump/hibDump_test.iml" filepath="$PROJECT_DIR$/.idea/modules/tools/hibDump/hibDump_test.iml" group="tools/hibDump" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/tools/hibImport/hibImport.iml" filepath="$PROJECT_DIR$/.idea/modules/tools/hibImport/hibImport.iml" group="tools/hibImport" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/tools/hibImport/hibImport_main.iml" filepath="$PROJECT_DIR$/.idea/modules/tools/hibImport/hibImport_main.iml" group="tools/hibImport" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/tools/hibImport/hibImport_test.iml" filepath="$PROJECT_DIR$/.idea/modules/tools/hibImport/hibImport_test.iml" group="tools/hibImport" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/tools/hibInfo/hibInfo.iml" filepath="$PROJECT_DIR$/.idea/modules/tools/hibInfo/hibInfo.iml" group="tools/hibInfo" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/tools/hibInfo/hibInfo_main.iml" filepath="$PROJECT_DIR$/.idea/modules/tools/hibInfo/hibInfo_main.iml" group="tools/hibInfo" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/tools/hibInfo/hibInfo_test.iml" filepath="$PROJECT_DIR$/.idea/modules/tools/hibInfo/hibInfo_test.iml" group="tools/hibInfo" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/tools/hibToJpeg/hibToJpeg.iml" filepath="$PROJECT_DIR$/.idea/modules/tools/hibToJpeg/hibToJpeg.iml" group="tools/hibToJpeg" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/tools/hibToJpeg/hibToJpeg_main.iml" filepath="$PROJECT_DIR$/.idea/modules/tools/hibToJpeg/hibToJpeg_main.iml" group="tools/hibToJpeg" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/tools/hibToJpeg/hibToJpeg_test.iml" filepath="$PROJECT_DIR$/.idea/modules/tools/hibToJpeg/hibToJpeg_test.iml" group="tools/hibToJpeg" />
+      <module fileurl="file://$PROJECT_DIR$/hipi.iml" filepath="$PROJECT_DIR$/hipi.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/tools/tools.iml" filepath="$PROJECT_DIR$/.idea/modules/tools/tools.iml" group="tools" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/tools/tools_main.iml" filepath="$PROJECT_DIR$/.idea/modules/tools/tools_main.iml" group="tools" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/tools/tools_test.iml" filepath="$PROJECT_DIR$/.idea/modules/tools/tools_test.iml" group="tools" />
+    </modules>
+  </component>
+</project>
