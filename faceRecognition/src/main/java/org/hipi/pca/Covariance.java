@@ -1,4 +1,4 @@
-package org.hipi.covar;
+package org.hipi.pca;
 
 import static org.bytedeco.javacpp.opencv_imgproc.CV_RGB2GRAY;
 
@@ -36,12 +36,12 @@ public class Covariance extends Configured implements Tool {
                 Mat cvImageRGB = OpenCVUtils.convertRasterImageToMat(image);
                 opencv_imgproc.cvtColor(cvImageRGB, cvImage, CV_RGB2GRAY);
                 return true;
-        
+
             //if LUM, already grayscale
             case LUM:
                 cvImage = OpenCVUtils.convertRasterImageToMat(image);
                 return true;
-        
+
             //otherwise, color space is not supported for this example. Skip input image.
             default:
                 System.out.println("HipiColorSpace [" + colorSpace + "] not supported in covar example. ");

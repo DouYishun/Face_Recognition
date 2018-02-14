@@ -1,4 +1,4 @@
-package org.hipi.covar;
+package org.hipi.pca;
 
 import org.hipi.image.FloatImage;
 import org.hipi.image.HipiImageHeader;
@@ -20,7 +20,7 @@ public class CovarianceMapper extends
         Mapper<HipiImageHeader, FloatImage, IntWritable, OpenCVMatWritable> {
 
     Mat mean; // Stores pre-computed mean
-    Mat gaussian; // Stores gaussian matrix computed in setup
+    Mat gaussian;  // Stores gaussian matrix computed in setup
 
     @Override
     public void setup(Context job) {
@@ -28,7 +28,7 @@ public class CovarianceMapper extends
         int N = Covariance.patchSize;
         float sigma = Covariance.sigma;
 
-        /* Create mean mat using data from mean computation */
+        /* Create mean mat */
 
         try {
             // Access mean data on HDFS
@@ -48,40 +48,40 @@ public class CovarianceMapper extends
             ioe.printStackTrace();
             System.exit(1);
         }
-    
+
 
         /* Create a normalized gaussian array for patch masking */
-    
+
         gaussian = new Mat(N, N, opencv_core.CV_32FC1, new Scalar(0.0));
         FloatBuffer gaussianBuffer = gaussian.createBuffer();
-    
+
         // 'center' and 'denominator' precomputed for gaussian generation
         int center = N / 2;
         double denominator =  2 * sigma * sigma;
-    
+
         for (int i = 0; i < N; i++) {
             for (int j = 0; j < N; j++) {
                 gaussianBuffer.put(i * N + j, generate2DGaussianValue(i, j, center, denominator));
             }
         }
-    
+
         // compute euclidean distance of gaussian vector
         double sumOfSquares = 0.0;
         for (int i = 0; i < N * N; i++) {
             sumOfSquares += gaussianBuffer.get(i) * gaussianBuffer.get(i);
         }
-    
+
         double euclideanDistance = Math.sqrt(sumOfSquares);
-    
+
         if (euclideanDistance == 0) {
             System.out.println("Invalid euclidean distance of gaussian vector [0]. Cannot continue.");
             System.exit(1);
         }
-    
+
         // normalize gaussian weighting matrix
         gaussian = opencv_core.divide(gaussian, euclideanDistance).asMat();
     }
-  
+
     // 2D Gaussian: f(i, j) = A * exp(-( (i - i0)^2 / (2 * iSigma^2) + (j - j0)^2 / (2 * jSigma^2) ))
     // i0 == j0 == "center"
     // iSigma == jSigma (sigma)
@@ -89,7 +89,7 @@ public class CovarianceMapper extends
     // i0 == j0 == "center"
     // (2 * sigma^2) == "denominator"
     private float generate2DGaussianValue(int i, int j, int center, double denominator) {
-    
+
         double termOne = ((double)((i - center) * (i - center))) / denominator;
         double termTwo = ((double)((j - center) * (j - center))) / denominator;
 
@@ -99,11 +99,11 @@ public class CovarianceMapper extends
     @Override
     public void map(HipiImageHeader header, FloatImage image, Context context)
             throws IOException, InterruptedException {
-    
+
         /* Perform conversion to OpenCV */
-    
+
         Mat cvImage = new Mat(image.getHeight(), image.getWidth(), opencv_core.CV_32FC1);
-    
+
         // if unable to convert input FloatImage to grayscale Mat, skip image and move on
         if(!Covariance.convertFloatImageToGrayscaleMat(image, cvImage)) {
             System.out.println("CovarianceMapper is skipping image with invalid color space.");
@@ -111,7 +111,7 @@ public class CovarianceMapper extends
         }
 
         /* Create patches for covariance computation */
-    
+
         // Specify number of patches to use in covariance computation (iMax * jMax patches)
         int iMax = 10, jMax = 10;
 
@@ -125,10 +125,10 @@ public class CovarianceMapper extends
             for (int j = 0; j < jMax; j++) {
                 int y = (cvImage.rows() - N) * j / jMax;
                 Mat patch = cvImage.apply(new Rect(x, y, N, N)).clone();
-        
+
                 opencv_core.subtract(patch, mean, patch);
                 opencv_core.multiply(patch, gaussian, patch);
-        
+
                 patches[(iMax * i) + j] = patch;
             }
         }

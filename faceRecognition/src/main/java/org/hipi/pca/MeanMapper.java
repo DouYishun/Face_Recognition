@@ -1,4 +1,4 @@
-package org.hipi.covar;
+package org.hipi.pca;
 
 import org.hipi.image.FloatImage;
 import org.hipi.image.HipiImageHeader;

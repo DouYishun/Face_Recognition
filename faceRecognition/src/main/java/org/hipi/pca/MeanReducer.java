@@ -1,4 +1,4 @@
-package org.hipi.covar;
+package org.hipi.pca;
 
 import org.hipi.opencv.OpenCVMatWritable;
 
