@@ -18,17 +18,18 @@ import org.hipi.util.helper;
 
 import java.io.IOException;
 import java.nio.FloatBuffer;
+import java.util.Arrays;
 
 public class ReductionMapper
         extends Mapper<HipiImageHeader, FloatImage, IntWritable, Text> {
-    Mat mean;
-    Mat transformMatrix;
+    private final static IntWritable zero = new IntWritable(0);
+    private Text value = new Text();
+    private Mat mean;
+    private Mat transformMatrix;
 
     @Override
     public void setup(Context job) {
-
         /* Create mean and transformMatrix mat */
-
         try {
             String meanPathString = job.getConfiguration().get("hipi.pca.reduction.mean.path");
             String transformMatrixPathString = job.getConfiguration().get("hipi.pca.reduction.transformMatrix.path");
@@ -37,18 +38,18 @@ public class ReductionMapper
                 System.exit(1);
             }
             Path meanPath = new Path(meanPathString);
-            FSDataInputStream dis1 = FileSystem.get(job.getConfiguration()).open(meanPath);
-
-            OpenCVMatWritable meanWritable = new OpenCVMatWritable();
-            meanWritable.readFields(dis1);
-            mean = meanWritable.getMat();  // shape (64 * 64)
-
-
             Path transformMatrixPath = new Path(transformMatrixPathString);
+
+            FSDataInputStream dis1 = FileSystem.get(job.getConfiguration()).open(meanPath);
             FSDataInputStream dis2 = FileSystem.get(job.getConfiguration()).open(transformMatrixPath);
 
+            OpenCVMatWritable meanWritable = new OpenCVMatWritable();
             OpenCVMatWritable transformMatrixWritable = new OpenCVMatWritable();
+
+            meanWritable.readFields(dis1);
             transformMatrixWritable.readFields(dis2);
+
+            mean = meanWritable.getMat();  // shape (64 * 64)
             transformMatrix = transformMatrixWritable.getMat();  // shape (4096 * 30)
 
         } catch (IOException ioe) {
@@ -62,14 +63,12 @@ public class ReductionMapper
             throws IOException, InterruptedException {
 
         /* Get image label */
-
         // e.g. filename = "123_20.png", label 123, 20th image.
         String filename = header.getMetaData("filename");
         int label = Integer.parseInt(filename.substring(0, filename.indexOf('_')));
-
+        String labelStr = String.valueOf(label);
 
         /* Perform conversion to OpenCV */
-
         Mat cvImage = new Mat(image.getHeight(), image.getWidth(), opencv_core.CV_32FC1);
 
         // if unable to convert input FloatImage to grayscale Mat, skip image and move on
@@ -80,7 +79,6 @@ public class ReductionMapper
 
 
         /* Get image feature */
-
         // patch dimensions (N X N)
         int N = Reduction.patchSize;
 
@@ -101,16 +99,21 @@ public class ReductionMapper
         }
 
         features = opencv_core.divide(mean, ((double) (iMax * jMax))).asMat();
-        features.reshape(0, N * N);
 
         // reduction
-        opencv_core.multiply(transformMatrix.t().asMat(), features, features);
+        // (30*4096) * (4096*1) = (30 * 1)
+        Mat newFeatures = opencv_core.multiply(transformMatrix.t().asMat(), features.reshape(0, N*N)).asMat();
+
+        // mat features to string
+        int elms = (int)(newFeatures.total() * newFeatures.channels());
+        System.out.println(elms);
+        float [] floatData = new float[elms];
+        ((FloatBuffer)newFeatures.createBuffer()).get(floatData);
+        String featuresStr = Arrays.toString(floatData).replace(",", "").replace("[", "").replace("]", "");
 
         // concat label and features
+        value.set(labelStr + " " + featuresStr);
 
-
-        context.write(new IntWritable(0), );
-
+        context.write(zero, value);
     }
-
 }
