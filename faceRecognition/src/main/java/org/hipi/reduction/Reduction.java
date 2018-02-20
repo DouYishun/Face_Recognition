@@ -31,7 +31,7 @@ public class Reduction extends Configured implements Tool {
         helper.mkdir(outputDir, conf);
 
         // Run reduction
-        if (runReduction.run(args, inputHibPath, transformMatrixPath, meanPath, outputDir) == 1) {
+        if (runReduction.run(inputHibPath, transformMatrixPath, meanPath, outputDir) == 1) {
             System.out.println("Reduction job failed to complete.");
             return 1;
         }

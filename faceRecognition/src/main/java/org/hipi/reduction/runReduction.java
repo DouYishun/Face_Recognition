@@ -16,8 +16,7 @@ import java.io.IOException;
 
 public class runReduction {
 
-    public static int run(String[] args, String inputHibPath, String transformMatrixPath,
-                          String meanPath, String outputDir)
+    public static int run(String inputHibPath, String transformMatrixPath, String meanPath, String outputDir)
             throws ClassNotFoundException, IllegalStateException, InterruptedException, IOException {
 
         System.out.println("Running reduction.");

@@ -16,6 +16,8 @@ import org.bytedeco.javacpp.opencv_core.Scalar;
 import java.io.IOException;
 import java.nio.FloatBuffer;
 
+import org.hipi.util.helper;
+
 public class CovarianceMapper extends
         Mapper<HipiImageHeader, FloatImage, IntWritable, OpenCVMatWritable> {
 
@@ -105,7 +107,7 @@ public class CovarianceMapper extends
         Mat cvImage = new Mat(image.getHeight(), image.getWidth(), opencv_core.CV_32FC1);
 
         // if unable to convert input FloatImage to grayscale Mat, skip image and move on
-        if(!Covariance.convertFloatImageToGrayscaleMat(image, cvImage)) {
+        if(!helper.convertFloatImageToGrayscaleMat(image, cvImage)) {
             System.out.println("CovarianceMapper is skipping image with invalid color space.");
             return;
         }

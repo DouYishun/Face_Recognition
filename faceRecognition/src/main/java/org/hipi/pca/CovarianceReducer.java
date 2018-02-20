@@ -32,7 +32,7 @@ public class CovarianceReducer extends
 
 
         /* Compute eigenvectors */
-
+        System.out.println("Running compute eigenvectors.");
         Mat eigenvalues = new Mat(N * N, N * N, opencv_core.CV_32FC1, new Scalar(0.0));
         Mat eigenvectors = new Mat(N * N, N * N, opencv_core.CV_32FC1, new Scalar(0.0));
 
@@ -40,6 +40,6 @@ public class CovarianceReducer extends
 
         Mat topEigenVectors = eigenvectors.apply(new Rect(0, 0, 30, N * N));
 
-        context.write(NullWritable.get(), new OpenCVMatWritable(topEigenVectors));  // shape (4096 * 15)
+        context.write(NullWritable.get(), new OpenCVMatWritable(topEigenVectors));  // shape (4096 * 30)
     }
 }

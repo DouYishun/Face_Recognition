@@ -24,8 +24,7 @@ public class ReductionMapper
         extends Mapper<HipiImageHeader, FloatImage, IntWritable, Text> {
     private final static IntWritable zero = new IntWritable(0);
     private Text value = new Text();
-    private Mat mean;
-    private Mat transformMatrix;
+    private Mat mean, transformMatrix;
 
     @Override
     public void setup(Context job) {
@@ -65,8 +64,7 @@ public class ReductionMapper
         /* Get image label */
         // e.g. filename = "123_20.png", label 123, 20th image.
         String filename = header.getMetaData("filename");
-        int label = Integer.parseInt(filename.substring(0, filename.indexOf('_')));
-        String labelStr = String.valueOf(label);
+        String labelStr = filename.substring(0, filename.indexOf('_'));
 
         /* Perform conversion to OpenCV */
         Mat cvImage = new Mat(image.getHeight(), image.getWidth(), opencv_core.CV_32FC1);
@@ -98,7 +96,7 @@ public class ReductionMapper
             }
         }
 
-        features = opencv_core.divide(mean, ((double) (iMax * jMax))).asMat();
+        features = opencv_core.divide(features, ((double) (iMax * jMax))).asMat();
 
         // reduction
         // (30*4096) * (4096*1) = (30 * 1)
