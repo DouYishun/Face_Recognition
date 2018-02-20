@@ -26,7 +26,7 @@ public class KNN extends Configured implements Tool {
         int k = Integer.parseInt(args[2]);
 
         // Set up directory structure
-        helper.mkdir(outputDir, conf);
+        helper.rmdir(outputDir, conf);
 
         // Run KNN
         if (runKNN.run(trainFilePath, testFilePath, outputDir, k) == 1) {

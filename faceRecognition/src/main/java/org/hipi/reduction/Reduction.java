@@ -29,7 +29,6 @@ public class Reduction extends Configured implements Tool {
 
         // Set up directory structure
         helper.rmdir(outputDir, conf);
-        helper.mkdir(outputDir, conf);
 
         // Run reduction
         if (runReduction.run(inputHibPath, transformMatrixPath, meanPath, outputDir) == 1) {
