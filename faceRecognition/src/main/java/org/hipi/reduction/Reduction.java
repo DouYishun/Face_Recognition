@@ -23,7 +23,7 @@ public class Reduction extends Configured implements Tool {
         // Build I/O path strings
         String inputHibPath = args[0];
         String coefficientBaseDir = args[1];
-        String transformMatrixPath = coefficientBaseDir + "/transform_matrix-output/part-r-00000";
+        String transformMatrixPath = coefficientBaseDir + "/covariance-output/part-r-00000";
         String meanPath = coefficientBaseDir + "/mean-output/part-r-00000";
         String outputDir = args[2];
 
