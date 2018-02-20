@@ -89,10 +89,10 @@ public class helper {
 
     public static int indexOfMax(ArrayList<Double> list) {
         int index = -1;
-        Double min = Double.MIN_VALUE;
+        Double max = Double.MIN_VALUE;
         for (int i = 0; i < list.size(); i++) {
-            if (list.get(i) > min) {
-                min = list.get(i);
+            if (list.get(i) > max) {
+                max = list.get(i);
                 index = i;
             }
         }

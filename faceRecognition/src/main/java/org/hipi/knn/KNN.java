@@ -19,9 +19,9 @@ public class KNN extends Configured implements Tool {
         helper.validateArgs(args, 3);
 
         // Build I/O path strings
-        String baseDir = args[0];
-        String trainFilePath = baseDir + "/train/part-r-00000";
-        String testFilePath = baseDir + "/test/part-r-00000";
+        String dataBaseDir = args[0];
+        String trainFilePath = dataBaseDir + "/train/part-r-00000";
+        String testFilePath = dataBaseDir + "/test/part-r-00000";
         String outputDir = args[1];
         int k = Integer.parseInt(args[2]);
 

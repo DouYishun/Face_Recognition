@@ -19,7 +19,7 @@ public class KNNMapper
     private int k;
     private ArrayList<Instance> trainSet;
 
-    private final static IntWritable outKey = new IntWritable(1);
+    private final static IntWritable zero = new IntWritable(0);
     private IntWritable outValue = new IntWritable();
 
     @Override
@@ -51,7 +51,7 @@ public class KNNMapper
         }
 
         Instance testInstance = new Instance(textLine.toString());
-        int groundLabel = testInstance.getLabel();
+
         for (int i = 0; i < trainSet.size(); i++) {
             double dist = helper.EuclideanDistance(trainSet.get(i).getFeatures(), testInstance.getFeatures());
             int index = helper.indexOfMax(k_distances);
@@ -63,13 +63,14 @@ public class KNNMapper
             }
         }
 
-        int predictedLabel = helper.getMostFrequentValue(k_labels);
+        int predictedLabel = helper.getMostFrequentValue(k_labels), groundLabel = testInstance.getLabel();
+
         if (predictedLabel == groundLabel) {
             outValue.set(1);
         } else {
             outValue.set(0);
         }
 
-        context.write(outKey, outValue);
+        context.write(zero, outValue);
     }
 }
