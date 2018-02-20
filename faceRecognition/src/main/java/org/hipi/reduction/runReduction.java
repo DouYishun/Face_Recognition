@@ -7,6 +7,7 @@ import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Job;
 import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
+import org.apache.hadoop.mapreduce.lib.output.TextOutputFormat;
 import org.hipi.imagebundle.mapreduce.HibInputFormat;
 import org.hipi.mapreduce.BinaryOutputFormat;
 import org.hipi.opencv.OpenCVMatWritable;
@@ -37,13 +38,13 @@ public class runReduction {
         job.setReducerClass(ReductionReducer.class);
         job.setNumReduceTasks(1);
 
-        job.setOutputFormatClass(BinaryOutputFormat.class);
+        job.setOutputFormatClass(TextOutputFormat.class);
 
         FileInputFormat.setInputPaths(job, new Path(inputHibPath));
         FileOutputFormat.setOutputPath(job, new Path(outputDir));
 
-        job.getConfiguration().setStrings("hipi.pca.reduction.transformMatrix.path", transformMatrixPath);
-        job.getConfiguration().setStrings("hipi.pca.reduction.mean.path", meanPath);
+        job.getConfiguration().setStrings("hipi.reduction.transformMatrix.path", transformMatrixPath);
+        job.getConfiguration().setStrings("hipi.reduction.mean.path", meanPath);
 
         return job.waitForCompletion(true) ? 0 : 1;
     }

@@ -18,6 +18,8 @@ import org.bytedeco.javacpp.opencv_core.Mat;
 
 import java.io.IOException;
 
+import org.hipi.util.helper;
+
 public class Covariance extends Configured implements Tool {
   
     public static final int patchSize = 64;  // Patch dimensions: patchSize x patchSize
@@ -50,24 +52,6 @@ public class Covariance extends Configured implements Tool {
     }
 
 
-    private static void rmdir(String path, Configuration conf) throws IOException {
-        Path outputPath = new Path(path);
-        FileSystem fileSystem = FileSystem.get(conf);
-        if (fileSystem.exists(outputPath)) {
-            fileSystem.delete(outputPath, true);
-        }
-    }
-
-
-    private static void mkdir(String path, Configuration conf) throws IOException {
-        Path outputPath = new Path(path);
-        FileSystem fileSystem = FileSystem.get(conf);
-        if (!fileSystem.exists(outputPath)) {
-            fileSystem.mkdirs(outputPath);
-        }
-    }
-
-
     private static void validateArgs(String[] args, Configuration conf) throws IOException {
         if (args.length != 2) {
             System.out.println("Usage: <input HIB> <output directory>");
@@ -78,17 +62,6 @@ public class Covariance extends Configured implements Tool {
         FileSystem fileSystem = FileSystem.get(conf);
         if (!fileSystem.exists(inputPath)) {
             System.out.println("Input HIB does not exist at location: " + inputPath);
-            System.exit(1);
-        }
-    }
-
-
-    private static void validateMeanPath(String inputMeanPathString, Configuration conf)
-            throws IOException {
-        Path meanPath = new Path(inputMeanPathString);
-        FileSystem fileSystem = FileSystem.get(conf);
-        if (!fileSystem.exists(meanPath)) {
-            System.out.println("Mean patch does not exist at location: " + meanPath);
             System.exit(1);
         }
     }
@@ -110,9 +83,9 @@ public class Covariance extends Configured implements Tool {
         String inputMeanPath = outputMeanDir + "part-r-00000"; //used to access ComputeMean result
     
         // Set up directory structure
-        mkdir(outputBaseDir, conf);
-        rmdir(outputMeanDir, conf);
-        rmdir(outputCovarianceDir, conf);
+        helper.mkdir(outputBaseDir, conf);
+        helper.rmdir(outputMeanDir, conf);
+        helper.rmdir(outputCovarianceDir, conf);
 
         // Run compute mean
         if (ComputeMean.run(args, inputHibPath, outputMeanDir) == 1) {
@@ -120,7 +93,7 @@ public class Covariance extends Configured implements Tool {
             return 1;
         }
     
-        validateMeanPath(inputMeanPath, conf);
+        helper.validatePath(inputMeanPath, conf);
     
         // Run compute covariance
         if (ComputeCovariance.run(args, inputHibPath, outputCovarianceDir, inputMeanPath) == 1) {
@@ -135,6 +108,9 @@ public class Covariance extends Configured implements Tool {
 
     // Main driver for full covariance computation
     public static void main(String[] args) throws Exception {
+        /*
+            args:
+         */
         int res = ToolRunner.run(new Covariance(), args);
         System.exit(res);
     }

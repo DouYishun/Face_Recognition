@@ -1,4 +1,4 @@
-package org.hipi.reduction;
+package org.hipi.knn;
 
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.conf.Configured;
@@ -8,9 +8,7 @@ import org.apache.hadoop.util.ToolRunner;
 import org.hipi.util.helper;
 
 
-public class Reduction extends Configured implements Tool {
-
-    public static final int patchSize = 64;  // Patch dimensions: patchSize x patchSize
+public class KNN extends Configured implements Tool {
 
     public int run(String[] args) throws Exception {
 
@@ -21,18 +19,18 @@ public class Reduction extends Configured implements Tool {
         helper.validateArgs(args, 3);
 
         // Build I/O path strings
-        String inputHibPath = args[0];
-        String coefficientBaseDir = args[1];
-        String transformMatrixPath = coefficientBaseDir + "/transform_matrix-output/part-r-00000";
-        String meanPath = coefficientBaseDir + "/mean-output/part-r-00000";
-        String outputDir = args[2];
+        String baseDir = args[0];
+        String trainFilePath = baseDir + "/train/part-r-00000";
+        String testFilePath = baseDir + "/test/part-r-00000";
+        String outputDir = args[1];
+        int k = Integer.parseInt(args[2]);
 
         // Set up directory structure
         helper.mkdir(outputDir, conf);
 
-        // Run reduction
-        if (runReduction.run(args, inputHibPath, transformMatrixPath, meanPath, outputDir) == 1) {
-            System.out.println("Reduction job failed to complete.");
+        // Run KNN
+        if (runKNN.run(trainFilePath, testFilePath, outputDir, k) == 1) {
+            System.out.println("KNN job failed to complete.");
             return 1;
         }
 
@@ -42,9 +40,9 @@ public class Reduction extends Configured implements Tool {
 
     public static void main(String[] args) throws Exception {
         /*
-            args: inputHibPath coefficientBaseDir outputDir
+            args: baseDir outputDir k
          */
-        int res = ToolRunner.run(new Reduction(), args);
+        int res = ToolRunner.run(new KNN(), args);
         System.exit(res);
     }
 }

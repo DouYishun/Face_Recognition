@@ -31,8 +31,8 @@ public class ReductionMapper
     public void setup(Context job) {
         /* Create mean and transformMatrix mat */
         try {
-            String meanPathString = job.getConfiguration().get("hipi.pca.reduction.mean.path");
-            String transformMatrixPathString = job.getConfiguration().get("hipi.pca.reduction.transformMatrix.path");
+            String meanPathString = job.getConfiguration().get("hipi.reduction.mean.path");
+            String transformMatrixPathString = job.getConfiguration().get("hipi.reduction.transformMatrix.path");
             if (meanPathString == null || transformMatrixPathString == null) {
                 System.err.println("Configuration path not set properly.");
                 System.exit(1);
@@ -112,8 +112,7 @@ public class ReductionMapper
         String featuresStr = Arrays.toString(floatData).replace(",", "").replace("[", "").replace("]", "");
 
         // concat label and features
-        value.set(labelStr + " " + featuresStr);
-
+        value.set(featuresStr + " " + labelStr);
         context.write(zero, value);
     }
 }

@@ -10,6 +10,8 @@ import org.hipi.image.HipiImageHeader;
 import org.hipi.opencv.OpenCVUtils;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
 
 import static org.bytedeco.javacpp.opencv_imgproc.CV_RGB2GRAY;
 
@@ -40,8 +42,8 @@ public class helper {
         }
     }
 
-    public static void validateArgs(String[] args, Configuration conf, int paraNum) throws IOException {
-        if (args.length != 2) {
+    public static void validateArgs(String[] args, int paraNum) throws IOException {
+        if (args.length != paraNum) {
             System.out.println("Expect parameter number: " + paraNum);
             System.exit(1);
         }
@@ -49,10 +51,10 @@ public class helper {
 
     public static void validatePath(String inputPathString, Configuration conf)
             throws IOException {
-        Path meanPath = new Path(inputPathString);
+        Path inputPath = new Path(inputPathString);
         FileSystem fileSystem = FileSystem.get(conf);
-        if (!fileSystem.exists(meanPath)) {
-            System.out.println("Patch does not exist at location: " + meanPath);
+        if (!fileSystem.exists(inputPath)) {
+            System.out.println("Patch does not exist at location: " + inputPath);
             System.exit(1);
         }
     }
@@ -72,4 +74,59 @@ public class helper {
             fileSystem.mkdirs(outputPath);
         }
     }
+
+    public static double EuclideanDistance(double[] a, double[] b) {
+        if (a.length != b.length) {
+            System.out.println("Length not compatible.");
+            System.exit(1);
+        }
+        double sum = 0.0;
+        for (int i = 0; i < a.length; i++) {
+            sum += Math.pow(a[i] - b[i], 2);
+        }
+        return Math.sqrt(sum);
+    }
+
+    public static int indexOfMax(ArrayList<Double> list) {
+        int index = -1;
+        Double min = Double.MIN_VALUE;
+        for (int i = 0; i < list.size(); i++) {
+            if (list.get(i) > min) {
+                min = list.get(i);
+                index = i;
+            }
+        }
+        return index;
+    }
+
+    public static int getMostFrequentValue(ArrayList<Integer> list) {
+        int value, freq, mValue = -1, mFreq = -1;
+        for (int i = 0; i < list.size(); i++) {
+            value = list.get(i);
+            freq = Collections.frequency(list, value);
+            if (freq > mFreq) {
+                mFreq = freq;
+                mValue = value;
+            }
+        }
+        return mValue;
+    }
+
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
