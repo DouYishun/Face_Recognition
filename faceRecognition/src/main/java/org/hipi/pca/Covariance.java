@@ -30,9 +30,8 @@ public class Covariance extends Configured implements Tool {
         String inputMeanPath = outputMeanDir + "part-r-00000"; //used to access ComputeMean result
 
         // Set up directory structure
+        helper.rmdir(outputBaseDir, conf);
         helper.mkdir(outputBaseDir, conf);
-        helper.rmdir(outputMeanDir, conf);
-        helper.rmdir(outputCovarianceDir, conf);
 
         // Run compute mean
         if (ComputeMean.run(args, inputHibPath, outputMeanDir) == 1) {

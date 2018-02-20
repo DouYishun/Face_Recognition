@@ -9,8 +9,6 @@ import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 import org.apache.hadoop.mapreduce.lib.output.TextOutputFormat;
 import org.hipi.imagebundle.mapreduce.HibInputFormat;
-import org.hipi.mapreduce.BinaryOutputFormat;
-import org.hipi.opencv.OpenCVMatWritable;
 
 import java.io.IOException;
 

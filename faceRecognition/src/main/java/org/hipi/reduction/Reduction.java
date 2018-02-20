@@ -10,7 +10,7 @@ import org.hipi.util.helper;
 
 public class Reduction extends Configured implements Tool {
 
-    public static final int patchSize = 64;  // Patch dimensions: patchSize x patchSize
+    public static final int patchSize = 32;  // Patch dimensions: patchSize x patchSize
 
     public int run(String[] args) throws Exception {
 
@@ -28,6 +28,7 @@ public class Reduction extends Configured implements Tool {
         String outputDir = args[2];
 
         // Set up directory structure
+        helper.rmdir(outputDir, conf);
         helper.mkdir(outputDir, conf);
 
         // Run reduction

@@ -104,7 +104,6 @@ public class ReductionMapper
 
         // mat features to string
         int elms = (int)(newFeatures.total() * newFeatures.channels());
-        System.out.println(elms);
         float [] floatData = new float[elms];
         ((FloatBuffer)newFeatures.createBuffer()).get(floatData);
         String featuresStr = Arrays.toString(floatData).replace(",", "").replace("[", "").replace("]", "");
