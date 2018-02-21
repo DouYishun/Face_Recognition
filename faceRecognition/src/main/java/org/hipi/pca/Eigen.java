@@ -39,7 +39,6 @@ public class Eigen {
 
         Mat topEigenVectors = eigenvectors.apply(new opencv_core.Rect(0, 0, util.lowDimension, N * N));
 
-
         /* Write to hdfs */
         System.out.println("Write eigenvectors to hdfs.");
         Path eigenOutPath = new Path(baseDir + "/eigen-output/transformMatrix");

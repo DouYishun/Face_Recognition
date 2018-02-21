@@ -19,9 +19,7 @@ public class CovarianceReducer extends
     @Override
     public void reduce(IntWritable key, Iterable<OpenCVMatWritable> values, Context context)
         throws IOException, InterruptedException {
-
         /* Compute covariance */
-
         int N = util.patchSize;
 
         Mat cov = new Mat(N * N, N * N, opencv_core.CV_32FC1, new Scalar(0.0));

@@ -1,6 +1,5 @@
 package org.hipi.reduction;
 
-
 import org.apache.hadoop.io.Text;
 import org.hipi.image.FloatImage;
 import org.hipi.image.HipiImageHeader;
@@ -60,7 +59,6 @@ public class ReductionMapper
 
     public void map(HipiImageHeader header, FloatImage image, Context context)
             throws IOException, InterruptedException {
-
         /* Get image label */
         // e.g. filename = "123_20.png", label 123, 20th image.
         String filename = header.getMetaData("filename");
@@ -79,13 +77,9 @@ public class ReductionMapper
         /* Get image feature */
         // patch dimensions (N X N)
         int N = util.patchSize;
-
         Mat features = new Mat(N, N, opencv_core.CV_32FC1, new Scalar(0.0));
+        int iMax = 10, jMax = 10;  // specify number of patches to use in mean patch computation (iMax * jMax patches)
 
-        // specify number of patches to use in mean patch computation (iMax * jMax patches)
-        int iMax = 10, jMax = 10;
-
-        // collect patches and add their values to mean patch mat
         for (int i = 0; i < iMax; i++) {
             int x = ((cvImage.cols() - N) * i) / iMax;
             for (int j = 0; j < jMax; j++) {
@@ -98,7 +92,8 @@ public class ReductionMapper
 
         features = opencv_core.divide(features, ((double) (iMax * jMax))).asMat();
 
-        // reduction
+
+        /* Reduction */
         // (30*4096) * (4096*1) = (30 * 1)
         Mat newFeatures = opencv_core.multiply(transformMatrix.t().asMat(), features.reshape(0, N*N)).asMat();
 

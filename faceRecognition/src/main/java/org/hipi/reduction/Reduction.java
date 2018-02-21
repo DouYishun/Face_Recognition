@@ -11,11 +11,8 @@ import org.hipi.util.util;
 public class Reduction extends Configured implements Tool {
 
     public int run(String[] args) throws Exception {
-
-        // Used for initial argument validation and hdfs configuration before jobs are run
         Configuration conf = Job.getInstance().getConfiguration();
 
-        // Validate arguments before any work is done
         util.validateArgs(args, 3);
 
         // Build I/O path strings
@@ -34,7 +31,6 @@ public class Reduction extends Configured implements Tool {
             return 1;
         }
 
-        // Indicate success
         return 0;
     }
 

@@ -15,7 +15,7 @@ import java.io.IOException;
 
 public class ComputeCovariance {
 
-    public static int run(String[] args, String inputHibPath, String outputDir, String inputMeanPath)
+    public static int run(String inputHibPath, String outputDir, String inputMeanPath)
             throws ClassNotFoundException, IllegalStateException, InterruptedException, IOException {
     
         System.out.println("Running compute covariance.");
@@ -41,7 +41,7 @@ public class ComputeCovariance {
         FileInputFormat.setInputPaths(job, new Path(inputHibPath));
         FileOutputFormat.setOutputPath(job, new Path(outputDir));
 
-        job.getConfiguration().setStrings("hipi.covar.mean.path", inputMeanPath);
+        job.getConfiguration().setStrings("hipi.pca.mean.path", inputMeanPath);
 
         return job.waitForCompletion(true) ? 0 : 1;
     }
