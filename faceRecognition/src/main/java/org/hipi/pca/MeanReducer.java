@@ -11,12 +11,14 @@ import org.bytedeco.javacpp.opencv_core.Scalar;
 
 import java.io.IOException;
 
+import org.hipi.util.util;
+
 public class MeanReducer extends
         Reducer<IntWritable, OpenCVMatWritable, NullWritable, OpenCVMatWritable> {
     @Override
     public void reduce(IntWritable key, Iterable<OpenCVMatWritable> meanPatches, Context context)
             throws IOException, InterruptedException {
-        int N = Covariance.patchSize;
+        int N = util.patchSize;
 
         // consolidate mean patches from mapper
         Mat mean = new Mat(N, N, opencv_core.CV_32FC1, new Scalar(0.0));

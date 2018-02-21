@@ -5,12 +5,10 @@ import org.apache.hadoop.conf.Configured;
 import org.apache.hadoop.mapreduce.Job;
 import org.apache.hadoop.util.Tool;
 import org.apache.hadoop.util.ToolRunner;
-import org.hipi.util.helper;
+import org.hipi.util.util;
 
 
 public class Reduction extends Configured implements Tool {
-
-    public static final int patchSize = 32;  // Patch dimensions: patchSize x patchSize
 
     public int run(String[] args) throws Exception {
 
@@ -18,17 +16,17 @@ public class Reduction extends Configured implements Tool {
         Configuration conf = Job.getInstance().getConfiguration();
 
         // Validate arguments before any work is done
-        helper.validateArgs(args, 3);
+        util.validateArgs(args, 3);
 
         // Build I/O path strings
         String inputHibPath = args[0];
         String coefficientBaseDir = args[1];
-        String transformMatrixPath = coefficientBaseDir + "/covariance-output/part-r-00000";
+        String transformMatrixPath = coefficientBaseDir + "/eigen-output/transformMatrix";
         String meanPath = coefficientBaseDir + "/mean-output/part-r-00000";
         String outputDir = args[2];
 
         // Set up directory structure
-        helper.rmdir(outputDir, conf);
+        util.rmdir(outputDir, conf);
 
         // Run reduction
         if (runReduction.run(inputHibPath, transformMatrixPath, meanPath, outputDir) == 1) {

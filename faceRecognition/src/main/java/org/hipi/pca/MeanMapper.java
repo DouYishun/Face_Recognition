@@ -13,7 +13,7 @@ import org.bytedeco.javacpp.opencv_core.Scalar;
 
 import java.io.IOException;
 
-import org.hipi.util.helper;
+import org.hipi.util.util;
 
 public class MeanMapper extends
         Mapper<HipiImageHeader, FloatImage, IntWritable, OpenCVMatWritable> {
@@ -26,7 +26,7 @@ public class MeanMapper extends
         Mat cvImage = new Mat(image.getHeight(), image.getWidth(), opencv_core.CV_32FC1);
     
         // if unable to convert input FloatImage to grayscale Mat, skip image and move on
-        if(!helper.convertFloatImageToGrayscaleMat(image, cvImage)) {
+        if(!util.convertFloatImageToGrayscaleMat(image, cvImage)) {
             System.out.println("MeanMapper is skipping image with invalid color space.");
             return;
         }
@@ -35,7 +35,7 @@ public class MeanMapper extends
         /* Compute mean using OpenCV */
 
         // patch dimensions (N X N)
-        int N = Covariance.patchSize;
+        int N = util.patchSize;
  
         Mat mean = new Mat(N, N, opencv_core.CV_32FC1, new Scalar(0.0));
     

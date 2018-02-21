@@ -14,7 +14,7 @@ import org.bytedeco.javacpp.opencv_core;
 import org.bytedeco.javacpp.opencv_core.Mat;
 import org.bytedeco.javacpp.opencv_core.Rect;
 import org.bytedeco.javacpp.opencv_core.Scalar;
-import org.hipi.util.helper;
+import org.hipi.util.util;
 
 import java.io.IOException;
 import java.nio.FloatBuffer;
@@ -70,7 +70,7 @@ public class ReductionMapper
         Mat cvImage = new Mat(image.getHeight(), image.getWidth(), opencv_core.CV_32FC1);
 
         // if unable to convert input FloatImage to grayscale Mat, skip image and move on
-        if(!helper.convertFloatImageToGrayscaleMat(image, cvImage)) {
+        if(!util.convertFloatImageToGrayscaleMat(image, cvImage)) {
             System.out.println("Skipping image with invalid color space.");
             return;
         }
@@ -78,7 +78,7 @@ public class ReductionMapper
 
         /* Get image feature */
         // patch dimensions (N X N)
-        int N = Reduction.patchSize;
+        int N = util.patchSize;
 
         Mat features = new Mat(N, N, opencv_core.CV_32FC1, new Scalar(0.0));
 

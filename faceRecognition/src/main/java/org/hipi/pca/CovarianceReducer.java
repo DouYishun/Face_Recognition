@@ -7,10 +7,11 @@ import org.apache.hadoop.io.NullWritable;
 import org.apache.hadoop.mapreduce.Reducer;
 import org.bytedeco.javacpp.opencv_core;
 import org.bytedeco.javacpp.opencv_core.Mat;
-import org.bytedeco.javacpp.opencv_core.Rect;
 import org.bytedeco.javacpp.opencv_core.Scalar;
 
 import java.io.IOException;
+
+import org.hipi.util.util;
 
 public class CovarianceReducer extends
         Reducer<IntWritable, OpenCVMatWritable, NullWritable, OpenCVMatWritable> {
@@ -21,7 +22,7 @@ public class CovarianceReducer extends
 
         /* Compute covariance */
 
-        int N = Covariance.patchSize;
+        int N = util.patchSize;
 
         Mat cov = new Mat(N * N, N * N, opencv_core.CV_32FC1, new Scalar(0.0));
 

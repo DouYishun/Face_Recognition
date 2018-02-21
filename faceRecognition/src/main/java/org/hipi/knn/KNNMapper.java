@@ -12,7 +12,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import org.hipi.util.helper;
+import org.hipi.util.util;
 
 public class KNNMapper
         extends Mapper<LongWritable, Text, IntWritable, IntWritable> {
@@ -23,7 +23,7 @@ public class KNNMapper
     private IntWritable outValue = new IntWritable();
 
     @Override
-    protected void setup(Context context) throws IOException, InterruptedException {
+    protected void setup(Context context) throws IOException {
         k = context.getConfiguration().getInt("k", 1);
         trainSet = new ArrayList<>();
 
@@ -53,8 +53,8 @@ public class KNNMapper
         Instance testInstance = new Instance(textLine.toString());
 
         for (int i = 0; i < trainSet.size(); i++) {
-            double dist = helper.EuclideanDistance(trainSet.get(i).getFeatures(), testInstance.getFeatures());
-            int index = helper.indexOfMax(k_distances);
+            double dist = util.EuclideanDistance(trainSet.get(i).getFeatures(), testInstance.getFeatures());
+            int index = util.indexOfMax(k_distances);
             if (dist < k_distances.get(index)) {
                 k_distances.remove(index);
                 k_labels.remove(index);
@@ -63,7 +63,7 @@ public class KNNMapper
             }
         }
 
-        int predictedLabel = helper.getMostFrequentValue(k_labels), groundLabel = testInstance.getLabel();
+        int predictedLabel = util.getMostFrequentValue(k_labels), groundLabel = testInstance.getLabel();
 
         if (predictedLabel == groundLabel) {
             outValue.set(1);

@@ -7,11 +7,10 @@ import org.apache.hadoop.mapreduce.Job;
 import org.apache.hadoop.util.Tool;
 import org.apache.hadoop.util.ToolRunner;
 
-import org.hipi.util.helper;
+import org.hipi.util.util;
 
 public class Covariance extends Configured implements Tool {
 
-    public static final int patchSize = 32;  // Patch dimensions: patchSize x patchSize
     public static final float sigma = 10;  // Standard deviation of Gaussian weighting function
 
     public int run(String[] args) throws Exception {
@@ -20,7 +19,7 @@ public class Covariance extends Configured implements Tool {
         Configuration conf = Job.getInstance().getConfiguration();
 
         // Validate arguments before any work is done
-        helper.validateArgs(args, 2);
+        util.validateArgs(args, 2);
 
         // Build I/O path strings
         String inputHibPath = args[0];
@@ -30,8 +29,8 @@ public class Covariance extends Configured implements Tool {
         String inputMeanPath = outputMeanDir + "part-r-00000"; //used to access ComputeMean result
 
         // Set up directory structure
-        helper.rmdir(outputBaseDir, conf);
-        helper.mkdir(outputBaseDir, conf);
+        util.rmdir(outputBaseDir, conf);
+        util.mkdir(outputBaseDir, conf);
 
         // Run compute mean
         if (ComputeMean.run(args, inputHibPath, outputMeanDir) == 1) {
@@ -39,7 +38,7 @@ public class Covariance extends Configured implements Tool {
             return 1;
         }
 
-        helper.validatePath(inputMeanPath, conf);
+        util.validatePath(inputMeanPath, conf);
 
         // Run compute covariance
         if (ComputeCovariance.run(args, inputHibPath, outputCovarianceDir, inputMeanPath) == 1) {

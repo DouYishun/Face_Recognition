@@ -5,7 +5,7 @@ import org.apache.hadoop.conf.Configured;
 import org.apache.hadoop.mapreduce.Job;
 import org.apache.hadoop.util.Tool;
 import org.apache.hadoop.util.ToolRunner;
-import org.hipi.util.helper;
+import org.hipi.util.util;
 
 
 public class KNN extends Configured implements Tool {
@@ -16,7 +16,7 @@ public class KNN extends Configured implements Tool {
         Configuration conf = Job.getInstance().getConfiguration();
 
         // Validate arguments before any work is done
-        helper.validateArgs(args, 3);
+        util.validateArgs(args, 3);
 
         // Build I/O path strings
         String dataBaseDir = args[0];
@@ -26,7 +26,7 @@ public class KNN extends Configured implements Tool {
         int k = Integer.parseInt(args[2]);
 
         // Set up directory structure
-        helper.rmdir(outputDir, conf);
+        util.rmdir(outputDir, conf);
 
         // Run KNN
         if (runKNN.run(trainFilePath, testFilePath, outputDir, k) == 1) {

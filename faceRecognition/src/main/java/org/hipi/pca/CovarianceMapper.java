@@ -16,7 +16,7 @@ import org.bytedeco.javacpp.opencv_core.Scalar;
 import java.io.IOException;
 import java.nio.FloatBuffer;
 
-import org.hipi.util.helper;
+import org.hipi.util.util;
 
 public class CovarianceMapper extends
         Mapper<HipiImageHeader, FloatImage, IntWritable, OpenCVMatWritable> {
@@ -27,7 +27,7 @@ public class CovarianceMapper extends
     @Override
     public void setup(Context job) {
     
-        int N = Covariance.patchSize;
+        int N = util.patchSize;
         float sigma = Covariance.sigma;
 
         /* Create mean mat */
@@ -107,7 +107,7 @@ public class CovarianceMapper extends
         Mat cvImage = new Mat(image.getHeight(), image.getWidth(), opencv_core.CV_32FC1);
 
         // if unable to convert input FloatImage to grayscale Mat, skip image and move on
-        if(!helper.convertFloatImageToGrayscaleMat(image, cvImage)) {
+        if(!util.convertFloatImageToGrayscaleMat(image, cvImage)) {
             System.out.println("CovarianceMapper is skipping image with invalid color space.");
             return;
         }
@@ -119,7 +119,7 @@ public class CovarianceMapper extends
 
         Mat[] patches = new Mat[iMax * jMax];
 
-        int N = Covariance.patchSize;
+        int N = util.patchSize;
 
         // Create mean-subtracted and gaussian-masked patches
         for (int i = 0; i < iMax; i++) {
