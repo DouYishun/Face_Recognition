@@ -40,7 +40,7 @@ public class KNN extends Configured implements Tool {
 
     public static void main(String[] args) throws Exception {
         /*
-            args: baseDir outputDir k
+            args: dataBaseDir outputDir k
          */
         int res = ToolRunner.run(new KNN(), args);
         System.exit(res);
