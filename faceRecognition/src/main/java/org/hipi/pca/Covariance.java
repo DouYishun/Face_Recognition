@@ -9,9 +9,6 @@ import org.apache.hadoop.util.ToolRunner;
 import org.hipi.util.util;
 
 public class Covariance extends Configured implements Tool {
-
-    public static final float sigma = 10;  // Standard deviation of Gaussian weighting function
-
     public int run(String[] args) throws Exception {
         Configuration conf = Job.getInstance().getConfiguration();
 

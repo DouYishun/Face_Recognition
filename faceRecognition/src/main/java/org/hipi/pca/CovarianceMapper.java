@@ -27,7 +27,7 @@ public class CovarianceMapper extends
     @Override
     public void setup(Context job) {
         int N = util.patchSize;
-        float sigma = Covariance.sigma;
+        float sigma = util.sigma;
 
         /* Create mean mat */
         try {

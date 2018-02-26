@@ -17,6 +17,7 @@ import static org.bytedeco.javacpp.opencv_imgproc.CV_RGB2GRAY;
 
 public class util {
     public static final int patchSize = 64;  // Patch dimensions: patchSize x patchSize
+    public static final float sigma = 10;  // Standard deviation of Gaussian weighting function
     public static final int lowDimension = 30;
 
     // Used to convert input FloatImages into grayscale OpenCV Mats in MeanMapper and CovarianceMapper
