@@ -23,7 +23,7 @@ public class ReductionMapper
         extends Mapper<HipiImageHeader, FloatImage, IntWritable, Text> {
     private final static IntWritable zero = new IntWritable(0);
     private Text value = new Text();
-    private Mat mean, transformMatrix, gaussian;
+    private Mat mean, transformMatrix;
 
     @Override
     public void setup(Context job) {
@@ -54,39 +54,8 @@ public class ReductionMapper
             ioe.printStackTrace();
             System.exit(1);
         }
-
-        /* Create a normalized gaussian array for patch masking
-         * */
-        int N = util.patchSize;
-        float sigma = util.sigma;
-        gaussian = new Mat(N, N, opencv_core.CV_32FC1, new Scalar(0.0));
-        FloatBuffer gaussianBuffer = gaussian.createBuffer();
-
-        // 'center' and 'denominator' precomputed for gaussian generation
-        int center = N / 2;
-        double denominator =  2 * sigma * sigma;
-        for (int i = 0; i < N; i++) {
-            for (int j = 0; j < N; j++) {
-                gaussianBuffer.put(i * N + j, generate2DGaussianValue(i, j, center, denominator));
-            }
-        }
-
-        // compute euclidean distance of gaussian vector
-        double sumOfSquares = 0.0;
-        for (int i = 0; i < N * N; i++) {
-            sumOfSquares += gaussianBuffer.get(i) * gaussianBuffer.get(i);
-        }
-        double euclideanDistance = Math.sqrt(sumOfSquares);
-
-        // normalize gaussian weighting matrix
-        gaussian = opencv_core.divide(gaussian, euclideanDistance).asMat();
     }
 
-    private float generate2DGaussianValue(int i, int j, int center, double denominator) {
-        double termOne = ((double)((i - center) * (i - center))) / denominator;
-        double termTwo = ((double)((j - center) * (j - center))) / denominator;
-        return ((float)Math.exp(-(termOne + termTwo)));
-    }
 
     public void map(HipiImageHeader header, FloatImage image, Context context)
             throws IOException, InterruptedException {
@@ -117,7 +86,6 @@ public class ReductionMapper
                 int y = ((cvImage.rows() - N) * j) / jMax;
                 Mat patch = cvImage.apply(new Rect(x, y, N, N));
                 opencv_core.subtract(patch, mean, patch);
-                opencv_core.multiply(patch, gaussian, patch);
                 opencv_core.add(patch, features, features);
             }
         }
