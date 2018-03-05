@@ -1,5 +1,6 @@
 .gradle
 .idea
+Face_Recognition.iml
 core/build
 example/helloWorld/build
 faceRecognition/build
